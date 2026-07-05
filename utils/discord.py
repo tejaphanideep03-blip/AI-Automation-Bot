@@ -7,21 +7,29 @@ load_dotenv()
 WEBHOOK = os.getenv("DISCORD_WEBHOOK")
 
 
-def send_message(title, description):
+def send_embed(title, description, color=3447003):
+
     embed = {
         "title": title,
         "description": description,
-        "color": 3447003
+        "color": color,
+        "footer": {
+            "text": "AI Intelligence System"
+        },
+        "timestamp": None
     }
 
-    data = {
+    payload = {
         "embeds": [embed]
     }
 
-    response = requests.post(WEBHOOK, json=data)
+    response = requests.post(
+        WEBHOOK,
+        json=payload,
+        timeout=20
+    )
 
     if response.status_code == 204:
-        print("Message sent successfully!")
+        print("Discord message sent.")
     else:
-        print(response.status_code)
         print(response.text)

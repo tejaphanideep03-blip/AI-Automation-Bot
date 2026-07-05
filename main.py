@@ -5,7 +5,7 @@ from collectors.reddit import get_reddit
 from collectors.cybersecurity import get_cyber
 from utils.formatter import build_message
 
-from utils.discord import send_message
+from utils.discord import send_embed
 
 message = ""
 
@@ -15,4 +15,4 @@ message += build_message(get_trending())
 message += build_message(get_reddit())
 message += build_message(get_cyber())
 
-send_message("🚀 AI Daily Update", message[:4000])
+send_embed("🚀 AI Daily Update", message[:4000])
