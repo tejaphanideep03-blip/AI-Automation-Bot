@@ -17,32 +17,35 @@ class CollectorEngine:
             get_reddit,
             get_trending,
             get_cyber,
-            get_arxiv      # <-- Added here
+            get_arxiv
         ]
 
     def collect_all(self):
 
         results = []
 
+        print("\n========== Collector Results ==========\n")
+
         for collector in self.collectors:
 
-            logger.info(f"Starting collection for {collector.__name__}")
-
             try:
+
                 items = collector()
-                results.extend(items)
+
+                print(f"{collector.__name__:<20} : {len(items)} items")
 
                 logger.info(
-                    f"{collector.__name__} completed successfully "
-                    f"({len(items)} items)"
+                    f"{collector.__name__}: {len(items)} items"
                 )
+
+                results.extend(items)
 
             except Exception as e:
 
-                logger.exception(
-                    f"{collector.__name__} failed with error: {e}"
-                )
+                print(f"{collector.__name__:<20} : FAILED")
 
-        logger.info(f"Total items collected: {len(results)}")
+                logger.exception(e)
+
+        print(f"\nTOTAL : {len(results)} items\n")
 
         return results

@@ -1,11 +1,12 @@
 CATEGORY_ORDER = [
     "AI News",
     "Models",
-    "Internships",
-    "Courses",
+    "Research Papers",
     "Cybersecurity",
     "GitHub",
-    "Reddit"
+    "Reddit",
+    "Internships",
+    "Courses"
 ]
 
 def sort_items(items):

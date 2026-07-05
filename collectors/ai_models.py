@@ -1,10 +1,6 @@
 import feedparser
 
-from config.settings import (
-    AI_NEWS_FEEDS,
-    MODEL_KEYWORDS
-)
-
+from config.settings import AI_NEWS_FEEDS, MODEL_KEYWORDS
 from utils.models import NewsItem
 
 
@@ -16,11 +12,11 @@ def get_models():
 
         feed = feedparser.parse(url)
 
-        for post in feed.entries:
+        for post in feed.entries[:10]:
 
             title = post.title.lower()
 
-            if any(word in title for word in MODEL_KEYWORDS):
+            if any(keyword in title for keyword in MODEL_KEYWORDS):
 
                 models.append(
                     NewsItem(
