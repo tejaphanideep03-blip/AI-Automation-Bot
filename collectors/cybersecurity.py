@@ -1,22 +1,27 @@
 import feedparser
 
-FEEDS = [
-    "https://feeds.feedburner.com/TheHackersNews"
-]
+from config.settings import CYBER_FEEDS
+
+from utils.models import NewsItem
+
 
 def get_cyber():
 
     news = []
 
-    for url in FEEDS:
+    for url in CYBER_FEEDS:
 
         feed = feedparser.parse(url)
 
         for item in feed.entries[:5]:
 
-            news.append({
-                "title": item.title,
-                "link": item.link
-            })
+            news.append(
+                NewsItem(
+                    category="Cybersecurity",
+                    title=item.title,
+                    link=item.link,
+                    source=url
+                )
+            )
 
     return news

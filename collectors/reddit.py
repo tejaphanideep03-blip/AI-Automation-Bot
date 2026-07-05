@@ -1,16 +1,15 @@
 import feedparser
 
-SUBREDDITS = [
-    "MachineLearning",
-    "LocalLLaMA",
-    "artificial"
-]
+from config.settings import REDDIT_SUBREDDITS
+
+from utils.models import NewsItem
+
 
 def get_reddit():
 
     posts = []
 
-    for sub in SUBREDDITS:
+    for sub in REDDIT_SUBREDDITS:
 
         feed = feedparser.parse(
             f"https://www.reddit.com/r/{sub}/new/.rss"
@@ -18,9 +17,13 @@ def get_reddit():
 
         for item in feed.entries[:5]:
 
-            posts.append({
-                "title": item.title,
-                "link": item.link
-            })
+            posts.append(
+                NewsItem(
+                    category="Reddit",
+                    title=item.title,
+                    link=item.link,
+                    source=sub
+                )
+            )
 
     return posts

@@ -1,25 +1,18 @@
 import feedparser
 
-MODEL_FEEDS = [
-    "https://huggingface.co/blog/feed.xml",
-    "https://openai.com/news/rss.xml"
-]
+from config.settings import (
+    AI_NEWS_FEEDS,
+    MODEL_KEYWORDS
+)
 
-KEYWORDS = [
-    "model",
-    "gpt",
-    "gemini",
-    "claude",
-    "llama",
-    "mistral",
-    "release"
-]
+from utils.models import NewsItem
+
 
 def get_models():
 
     models = []
 
-    for url in MODEL_FEEDS:
+    for url in AI_NEWS_FEEDS:
 
         feed = feedparser.parse(url)
 
@@ -27,11 +20,15 @@ def get_models():
 
             title = post.title.lower()
 
-            if any(word in title for word in KEYWORDS):
+            if any(word in title for word in MODEL_KEYWORDS):
 
-                models.append({
-                    "title": post.title,
-                    "link": post.link
-                })
+                models.append(
+                    NewsItem(
+                        category="Models",
+                        title=post.title,
+                        link=post.link,
+                        source=url
+                    )
+                )
 
     return models

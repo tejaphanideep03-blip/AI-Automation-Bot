@@ -1,13 +1,23 @@
 import requests
+
 from bs4 import BeautifulSoup
+
+from config.settings import GITHUB_TRENDING
+
+from utils.models import NewsItem
+
 
 def get_trending():
 
-    url = "https://github.com/trending"
+    html = requests.get(
+        GITHUB_TRENDING,
+        timeout=20
+    ).text
 
-    html = requests.get(url, timeout=20).text
-
-    soup = BeautifulSoup(html, "html.parser")
+    soup = BeautifulSoup(
+        html,
+        "html.parser"
+    )
 
     repos = []
 
@@ -15,9 +25,13 @@ def get_trending():
 
         name = repo.h2.text.strip().replace("\n", "")
 
-        repos.append({
-            "title": name,
-            "link": "https://github.com"
-        })
+        repos.append(
+            NewsItem(
+                category="GitHub",
+                title=name,
+                link="https://github.com",
+                source="GitHub"
+            )
+        )
 
     return repos
