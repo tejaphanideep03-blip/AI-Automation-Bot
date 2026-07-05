@@ -1,6 +1,6 @@
 import feedparser
 
-from config.settings import CYBER_FEEDS
+from config.sources import CYBER_SECURITY
 
 from utils.models import NewsItem
 
@@ -9,19 +9,26 @@ def get_cyber():
 
     news = []
 
-    for url in CYBER_FEEDS:
+    for source in CYBER_SECURITY:
 
-        feed = feedparser.parse(url)
+        feed = feedparser.parse(source["rss"])
 
         for item in feed.entries[:5]:
 
             news.append(
+
                 NewsItem(
+
                     category="Cybersecurity",
+
                     title=item.title,
+
                     link=item.link,
-                    source=url
+
+                    source=source["name"]
+
                 )
+
             )
 
     return news

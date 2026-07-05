@@ -1,6 +1,6 @@
 import feedparser
 
-from config.settings import REDDIT_SUBREDDITS
+from config.sources import REDDIT
 
 from utils.models import NewsItem
 
@@ -9,21 +9,30 @@ def get_reddit():
 
     posts = []
 
-    for sub in REDDIT_SUBREDDITS:
+    for subreddit in REDDIT:
 
         feed = feedparser.parse(
-            f"https://www.reddit.com/r/{sub}/new/.rss"
+
+            f"https://www.reddit.com/r/{subreddit}/new/.rss"
+
         )
 
         for item in feed.entries[:5]:
 
             posts.append(
+
                 NewsItem(
+
                     category="Reddit",
+
                     title=item.title,
+
                     link=item.link,
-                    source=sub
+
+                    source=subreddit
+
                 )
+
             )
 
     return posts
