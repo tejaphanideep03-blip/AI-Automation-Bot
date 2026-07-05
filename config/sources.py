@@ -56,6 +56,19 @@ COURSES = []
 
 YOUTUBE = []
 
-ARXIV = []
+ARXIV = [
+    {
+        "name": "Artificial Intelligence",
+        "rss": "https://rss.arxiv.org/rss/cs.AI"
+    },
+    {
+        "name": "Machine Learning",
+        "rss": "https://rss.arxiv.org/rss/cs.LG"
+    },
+    {
+        "name": "Computation and Language",
+        "rss": "https://rss.arxiv.org/rss/cs.CL"
+    }
+]
 
 HACKATHONS = []
