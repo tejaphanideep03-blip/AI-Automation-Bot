@@ -1,7 +1,8 @@
-def merge_collectors(*lists):
-    result = []
+def merge_collectors(*collector_lists):
 
-    for lst in lists:
-        result.extend(lst)
+    merged = []
 
-    return result
+    for collector in collector_lists:
+        merged.extend(collector)
+
+    return merged

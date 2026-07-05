@@ -1,18 +1,29 @@
-from collectors.ai_news import get_ai_news
-from collectors.ai_models import get_models
-from collectors.github_trending import get_trending
-from collectors.reddit import get_reddit
-from collectors.cybersecurity import get_cyber
+from services.collector_engine import CollectorEngine
+from services.notification_service import NotificationService
+
+from utils.aggregator import merge_collectors
+from utils.duplicate_filter import remove_duplicates
+from utils.sorter import sort_items
 from utils.formatter import build_message
 
-from utils.discord import send_embed
 
-message = ""
+def main():
 
-message += build_message(get_ai_news())
-message += build_message(get_models())
-message += build_message(get_trending())
-message += build_message(get_reddit())
-message += build_message(get_cyber())
+    engine = CollectorEngine()
 
-send_embed("🚀 AI Daily Update", message[:4000])
+    items = engine.collect_all()
+
+    items = remove_duplicates(items)
+
+    items = sort_items(items)
+
+    message = build_message(items)
+
+    NotificationService.send(
+        "🚀 AI Intelligence Daily Report",
+        message[:4000]
+    )
+
+
+if __name__ == "__main__":
+    main()
